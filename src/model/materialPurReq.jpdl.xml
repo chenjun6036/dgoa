@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process key="materialPurReq" name="materialPurReq" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="236,16,130,52" name="start1">
+      <transition g="-104,-7" name="to 填写物料需求表" to="填写物料需求表"/>
+   </start>
+   <end g="476,457,130,52" name="结束"/>
+   <task g="198,108,126,52" name="填写物料需求表">
+      <transition g="-92,-12" name="to 审核人员审核" to="审核人员审核"/>
+   </task>
+   <custom class="com.njust.dg.oa.jbpm.ReviewerVerify" g="199,198,130,52" name="审核人员审核">
+      <transition g="-61,-10" name="审核通过" to="执行人员审核"/>
+      <transition g="-17,-25" name="审核不通过" to="cancel1"/>
+   </custom>
+   <custom g="199,286,130,52" name="执行人员审核" class="com.njust.dg.oa.jbpm.ReviewerVerify">
+      <transition g="-53,-8" name="审核通过" to="管理员审核"/>
+      <transition g="-36,-16" name="审核不通过" to="cancel1"/>
+   </custom>
+   <custom g="201,389,130,52" name="管理员审核" class="com.njust.dg.oa.jbpm.ReviewerVerify">
+      <transition g="-103,-6" name="to 超级管理员审核" to="超级管理员审核"/>
+      <transition g="-43,-18" name="审核不通过" to="cancel1"/>
+      <transition g="2,-17" name="审核通过" to="结束"/>
+   </custom>
+   <custom g="205,491,125,52" name="超级管理员审核" class="com.njust.dg.oa.jbpm.ReviewerVerify">
+      <transition g="-29,-18" name="审核通过" to="结束"/>
+      <transition g="-55,-15" name="审核不通过" to="cancel1"/>
+   </custom>
+ 
+   
+   <end-cancel g="472,282,130,52" name="cancel1"/>
+</process>

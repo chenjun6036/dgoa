@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="materialReceiveRequistion" xmlns="http://jbpm.org/4.4/jpdl" key="materialReceiveRequistion">
+   <start name="start1" g="305,94,48,48">
+      <transition name="to 提交物料领用申请表" to="提交物料领用申请表" g="-129,-6"/>
+   </start>
+   <task name="审核人审核" g="283,258,92,52" assignee="#{audit}">
+      <transition name="to 执行人审核" to="执行人审核、发放" g="-81,-13"/>
+   </task>
+   <task name="执行人审核、发放" g="268,342,122,52" assignee="#{executor}">
+      <transition name="to end1" to="end1" g="-48,-9"/>
+   </task>
+   <end name="end1" g="305,426,48,48"/>
+   <task name="提交物料领用申请表" g="249,174,160,52">
+      <transition name="to 审核人审核" to="审核人审核" g="-83,-8"/>
+   </task>
+</process>

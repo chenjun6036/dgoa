@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>    
+	
+	
+	<!-- 表示Action由Spring来进行创建，可以直接使用Spring依赖注入来注入 -->
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<!-- <constant name="struts.ui.theme" value="simple"></constant> -->
+    <package name="default"  extends="json-default" >
+    	<interceptors>
+			
+			<interceptor name="loginInterceptor" class="com.njust.dg.oa.web.interceptor.LoginInterceptor">
+			</interceptor>
+			
+			<interceptor name="loginMethodInterceptor" class="com.njust.dg.oa.web.interceptor.LoginMethodInterceptor">
+				<param name="excludeMethods">login</param>
+			</interceptor>
+			
+			<interceptor-stack name="myDefaultInterceptorStack">
+				<!-- <interceptor-ref name="loginInterceptor"></interceptor-ref> -->
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myDefaultInterceptorStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+    		<exception-mapping result="error" exception="java.lang.Exception"/>
+    	</global-exception-mappings>
+    	
+    	
+    	<action name="loginAction" class="loginAction">
+    		<result type="json">  
+    			<param name="excludeProperties">username, password,realName</param>
+				<param name="excludeNullProperties">true</param>  		 	
+    		</result>
+    		<result name="showtree" type="json">
+    			<param name="root">menuTrees</param>
+    		</result>
+    	</action>
+    	<action name="userManagerAction" class="userManagerAction">
+    		<result name="getAllUsers" type="json">
+    			<param name="root">users</param>
+    		</result>
+    		<result name="operaUser" type="json">
+    			<param name="excludeProperties">user,roleId</param>
+    			<param name="excludeNullProperties">true</param>
+    		</result>
+    	</action>
+    	<action name="roleManagerAction" class="roleManagerAction">
+    		<result name="allRoles" type="json">
+    			<param name="root">roles</param>
+    		</result>
+    		<result type="json">
+    			<param name="excludeProperties">roleId,roleName,userId</param>
+    			<param name="excludeNullProperties">true</param>
+    		</result>
+    	</action>
+    	<action name="testAction" class="testAction">
+    		<result name="success">welcome.jsp</result>
+    	</action>
+    	<action name="approvalFlowAction" class="approvalFlowAction">
+    		<result name="success" type="json">
+    			<param name="contentType">text/html</param>
+    			<param name="includeProperties">success</param>
+    		</result>
+    		<result name="myTaskList" type="json">
+    			<param name="root">taskViewList</param>
+    		</result>
+    		<result name="approvedHistory" type="json">
+    			<param name="root">approveInfos</param>
+    		</result>
+    		<result name="myApplicationList" type="json">
+    			<param name="root">myApplications</param>
+    		</result>
+    		<result name="formList" type="json">
+    			<param name="root">formList</param>
+    		</result>
+    	</action>
+    	
+    </package>
+</struts> 

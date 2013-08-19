@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="applyforreimbursement" xmlns="http://jbpm.org/4.4/jpdl" key="applyforreimbursement">
+   <start name="start1" g="100,40,48,48">
+      <transition name="to 提交财务报销申请" to="提交财务报销申请" g="-116,-7"/>
+   </start>
+   <end name="end1" g="100,372,48,48"/>
+   <task name="提交财务报销申请" g="61,120,127,52">
+      <transition name="to 审核人员审核" to="审核人员审核" g="-92,-9"/>
+   </task>
+   <task name="审核人员审核" g="73,204,102,52" assignee="#{audit}">
+      <transition name="to 执行人审核" to="执行人审核、处理" g="-80,-10"/>
+   </task>
+   <task name="执行人审核、处理" g="62,288,124,52" assignee="#{executor}">
+      <transition name="to end1" to="end1" g="-49,-9"/>
+   </task>
+</process>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="equipUse" xmlns="http://jbpm.org/4.4/jpdl" key="equipUse">
+   <start name="start1" g="166,16,48,48">
+      <transition name="to 提交设备使用申请" to="提交设备使用申请" g="-113,-10"/>
+   </start>
+   <task name="提交设备使用申请" g="127,96,126,52">
+      <transition name="to 审核人员审核" to="审核人员审核" g="-92,-10"/>
+   </task>
+   <task name="审核人员审核" g="138,180,104,52" assignee="#{audit}">
+      <transition name="是否需要管理员审核？" to="exclusive1" g="-129,-9"/>
+   </task>
+   <task name="管理员审核" g="300,275,92,52" assignee="#{admin}">
+      <transition name="是否需要超级管理员审核？" to="exclusive2" g="7,-7"/>
+   </task>
+   <task name="超级管理员审核" g="291,464,127,52" assignee="#{superAdmin}">
+      <transition to="执行人审核、处理"/>
+   </task>
+   <decision name="exclusive1" g="166,264,48,48">
+   <handler class="com.njust.dg.oa.jbpm.HasAdminHandle" />
+      <transition name="是" to="管理员审核" g="-12,-14"/>
+      <transition name="否" to="执行人审核、处理" g="-27,-1"/>
+   </decision>
+   <decision name="exclusive2" g="325,369,48,48">
+   <handler class="com.njust.dg.oa.jbpm.MaterialPurchaseRequsitionHandle" />
+      <transition name="是" to="超级管理员审核" g="9,-3"/>
+      <transition name="否" to="执行人审核、处理" g="-18,-18"/>
+   </decision>
+   <task name="执行人审核、处理" g="134,461,122,52" assignee="#{executor}">
+      <transition name="to end1" to="end1" g="-50,-22"/>
+   </task>
+   <end name="end1" g="171,547,48,48"/>
+</process>

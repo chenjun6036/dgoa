@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="test111" xmlns="http://jbpm.org/4.4/jpdl">
+   <start name="start1" g="48,120,48,48">
+      <transition to="申请"/>
+   </start>
+   <end name="end1" g="384,312,48,48"/>
+   <task name="申请" g="189,127,92,52">
+      <transition to="部门经理"/>
+   </task>
+   <task name="部门经理" g="193,213,92,52">
+      <transition to="总经理"/>
+   </task>
+   <task name="总经理" g="194,301,92,52">
+      <transition to="end1"/>
+   </task>
+</process>

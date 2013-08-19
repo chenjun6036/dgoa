@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="test1" xmlns="http://jbpm.org/4.3/jpdl">
+   <jms g="199,234,92,52" name="jms1"/>
+   <sub-process name="Subprocess1" g="216,389,92,52"/>
+   <task name="task1" g="363,311,92,52"/>
+  
+   <mail name="sss" g="314,361,92,52" template="test"></mail>
+</process>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="cashAdvance" xmlns="http://jbpm.org/4.4/jpdl" key="cashAdvance">
+   <start name="start1" g="154,16,48,48">
+      <transition name="to 提交现金预支申请表" to="提交现金预支申请表" g="-128,-6"/>
+   </start>
+   <task name="提交现金预支申请表" g="108,96,141,52">
+      <transition name="to 审核人审核" to="审核人审核" g="-79,-9"/>
+   </task>
+   <task name="审核人审核" g="132,180,92,52" assignee="#{audit}">
+      <transition name="需要超级管理员审核？" to="exclusive1" g="-128,-9"/>
+   </task>
+   <task name="高级管理员审核" g="16,344,136,52" assignee="#{superAdmin}">
+      <transition name="to 执行人审核、发放" to="执行人审核、发放" g="-116,-2"/>
+   </task>
+   <decision name="exclusive1" g="154,264,48,48">
+   <handler class="com.njust.dg.oa.jbpm.CashAdvanceHandle" />
+      <transition name="是" to="高级管理员审核" g="-28,-15"/>
+      <transition name="否" to="执行人审核、发放" g="9,-4"/>
+   </decision>
+   <task name="执行人审核、发放" g="106,428,145,52" assignee="#{executor}">
+      <transition name="to end1" to="end1" g="-50,-22"/>
+   </task>
+   <end name="end1" g="154,512,48,48"/>
+</process>
